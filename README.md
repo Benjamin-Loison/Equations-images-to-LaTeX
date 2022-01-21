@@ -1,1 +1,1 @@
-# Equations-images-to-LaTeX
+# Equations images to LaTeX
