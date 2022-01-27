@@ -15,9 +15,13 @@ Notes :
 - tokens are encoded as one-hot
 
 To do :
+
 Practical part :
 - decide how to normalize the input of the network
+  - is it important that all the pictures have the same size ?
+  - interpolation should output black and white picture (nearest niehgbour does it already)
 - find the number of tokens (size of latex vocabulary) required for the dataset
+
 Theoretical part :
 - find how the network decides on the number of probability vectors to output
 - understand the effect of stacked/bidirectionnal LSTM
