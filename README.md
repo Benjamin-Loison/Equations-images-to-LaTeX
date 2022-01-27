@@ -17,14 +17,17 @@ Notes :
 To do :
 
 Practical part :
-- decide how to normalize the input of the network
+- [ ] decide how to normalize the input of the network
   - is it important that all the pictures have the same size ?
   - interpolation should output black and white picture (nearest niehgbour does it already)
-- find the number of tokens (size of latex vocabulary) required for the dataset
+- [ ] find the number of tokens (size of latex vocabulary) required for the dataset
 
 Theoretical part :
-- find how the network decides on the number of probability vectors to output
-- understand the effect of stacked/bidirectionnal LSTM
+- [ ] find how the network decides on the number of probability vectors to output
+- [x] understand the effect of stacked/bidirectionnal LSTM
+  > Stacking multiple layers of LSTM increase the depth of the RNN and thus helps to capture more complex language semantics. Using bidirectional cells in each layer helps to capture the contexts from both forward and backward directions between tokens.
+  
+  Source : https://arxiv.org/ftp/arxiv/papers/1908/1908.11415.pdf
 
 Sources:
 
