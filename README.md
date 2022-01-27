@@ -15,7 +15,7 @@ Notes :
 - tokens are encoded as one-hot
 
 To do :
-Pactical part :
+Practical part :
 - decide how to normalize the input of the network
 - find the number of tokens (size of latex vocabulary) required for the dataset
 Theoretical part :
@@ -27,3 +27,5 @@ Sources:
 A GRU-based Encoder-Decoder Approach with Attention for Online Handwritten Mathematical Expression Recognition https://arxiv.org/pdf/1712.03991.pdf
 
 TC11_package2014.zip http://tc11.cvc.uab.es/datasets/CROHME-2014_2
+
+inkml2img.py https://github.com/RobinXL/inkml2img
