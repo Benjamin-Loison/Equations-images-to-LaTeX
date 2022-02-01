@@ -5,6 +5,9 @@ Architecture :
 - CNN : convert pictures to features at size (H',W',F)
 - RNN : to be discussed, should output probability vectors of length V the vocabulary size.
 - Word embedding layer : should be used to learn that `{` often comes with `}` for example.
+  - word embedding is used before the RNN
+- attention mechanism : is used to put weights on the input of the RNN
+  - uses output of CNN and hidden state of RNN block t-1 to compute weights for RNN block t
 
 On the RNN :
 - could take as input a vector of size (H'\*W',F) which means LSTM would take inputs that are F-dimensionnal
@@ -23,7 +26,8 @@ Practical part :
 - [ ] find the number of tokens (size of latex vocabulary) required for the dataset
 
 Theoretical part :
-- [ ] find how the network decides on the number of probability vectors to output
+- [x] find how the network decides on the number of probability vectors to output
+  > this works by padding, we pad with 0 in order to get the desired length. Learning and RNNs will do the rest of the work
 - [x] understand the effect of stacked/bidirectionnal LSTM
   > Stacking multiple layers of LSTM increase the depth of the RNN and thus helps to capture more complex language semantics. Using bidirectional cells in each layer helps to capture the contexts from both forward and backward directions between tokens.
   
