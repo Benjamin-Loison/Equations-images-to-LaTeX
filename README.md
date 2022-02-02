@@ -16,14 +16,17 @@ On the RNN :
 Notes :
 - pictures are in black and white
 - tokens are encoded as one-hot
+- attention mechanism isn't implemented
 
 To do :
 
 Practical part :
 - [ ] decide how to normalize the input of the network
   - is it important that all the pictures have the same size ?
+    > it's necessary for batch learning
   - interpolation should output black and white picture (nearest niehgbour does it already)
-- [ ] find the number of tokens (size of latex vocabulary) required for the dataset
+- [x] find the number of tokens (size of latex vocabulary) required for the dataset
+  > we know have a script to get that back from dataset
 
 Theoretical part :
 - [x] find how the network decides on the number of probability vectors to output
