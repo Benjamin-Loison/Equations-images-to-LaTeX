@@ -16,6 +16,7 @@ padWord = 'pad'
 
 wordsToIndexes = {}
 indexesToWords = {}
+wordsCount = {}
 
 # to force these special words to have indexes 0, 1 and 2
 for word in [startWord, endWord, padWord]:
@@ -31,7 +32,15 @@ for line in lines:
             index = len(wordsToIndexes)
             wordsToIndexes[word] = index
             indexesToWords[index] = word
+            wordsCount[word] = 0
+        wordsCount[word] += 1
+
     words = [startWord] + words + [endWord]
     words = [wordsToIndexes[word] for word in words]
 
     sentences += [words]
+
+wordsCount = {k: v for k, v in sorted(wordsCount.items(), key=lambda item: item[1])}
+for word in wordsCount:
+    print(word, wordsCount[word])
+
