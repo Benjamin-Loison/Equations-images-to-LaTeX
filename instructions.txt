@@ -1,0 +1,9 @@
+wget https://github.com/Benjamin-Loison/Equations-images-to-LaTeX/archive/refs/heads/main.zip
+unzip main.zip
+rm main.zip
+cd Equations-images-to-LaTeX-main/
+cd dataset/
+wget https://lemnoslife.com/BEN/formula_images_processed_padded_optimized.zip
+unzip formula_images_processed_padded_optimized.zip
+python3.8 -m pip install --upgrade pip
+pip install opencv-python
