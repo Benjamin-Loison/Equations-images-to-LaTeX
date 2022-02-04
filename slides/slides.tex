@@ -1,0 +1,313 @@
+\documentclass{beamer}
+
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{moreverb}
+\usepackage{enumitem}
+
+\usetheme{Warsaw}
+
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+\setbeamertemplate{headline}{}
+
+\makeatletter
+\setbeamertemplate{footline}
+{
+  	\leavevmode%
+  	\hbox{%
+  	\begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{palette primary}%
+    	\usebeamerfont{title in head/foot} \inserttitle
+  	\end{beamercolorbox}%
+  	
+  	\begin{beamercolorbox}[wd=.50\paperwidth,ht=2.25ex,dp=1ex,center]{palette secondary}%
+    	\usebeamerfont{title in head/foot} \insertauthor
+  	\end{beamercolorbox}%
+  
+  	\begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{palette tertiary}%
+    	\usebeamerfont{date in head/foot} \insertshortdate
+  	\end{beamercolorbox}%
+  
+  	\begin{beamercolorbox}[wd=.05\paperwidth,ht=2.25ex,dp=1ex,center]{palette quaternary}%
+    	\usebeamerfont{author in head/foot} \insertframenumber \hspace*{.1ex}
+  	\end{beamercolorbox}}%
+  	\vskip0pt%
+}
+\makeatother
+
+\title{Converting equations to \LaTeX}
+\author{Robin Sobczyk, Benjamin Loison, Bastien Lhopitallier}
+\date{4 février 2022}
+\institute{\href{https://github.com/Benjamin-Loison/Equations-images-to-LaTeX}{https://github.com/Benjamin-Loison/Equations-images-to-LaTeX}}
+
+\AtBeginSection[]
+{
+\begin{frame}
+\frametitle{Table of contents}
+\tableofcontents[currentsection, hideothersubsections]
+\end{frame}
+}
+
+
+
+\begin{document}
+
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+    \frametitle{\LaTeX\;images conversion}
+    \framesubtitle{\hfill Problem}
+    
+\begin{center}
+    \[ \hat{f}(x) = \int^{1}_{0} \left( \dfrac{\partial f}{\partial x} f^{'}(x) \right) dx \]
+    \[ \downarrow \]
+    \texttt{\textbackslash hat \{ f \} ( x ) = \textbackslash int \textasciicircum~\{ 1 \} \_ \{ 0 \} \textbackslash left( \textbackslash dfrac \{ \textbackslash partial f \} \{ \textbackslash partial x \} f \textasciicircum~\{ ' \} ( x ) \textbackslash right) d x}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Journey}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+    \frametitle{Handwritten dataset}
+    \framesubtitle{\hfill CROHME-2014}
+    
+\begin{center}
+\begin{itemize}[label=$\bullet$]
+  \item INKML to RGB
+  \item \includegraphics[width=0.3\paperwidth]{Images/out.png}
+  \pause
+  \item Trace: 404 62, ..., 404 62, 402 62, ...
+  
+  \pause
+  \item Remove legends
+  \pause
+  \item Crop images to black to reduce pixels number
+  \pause
+  \item Flip images because upside down
+  \pause
+  \item Resize nearest neighbor
+  \pause
+  \item + statistics to get max rectangle taken by black pixels
+\end{itemize}
+\end{center}
+
+\end{frame}
+
+\begin{frame}
+
+    \frametitle{Handwritten dataset}
+    \framesubtitle{\hfill CROHME-2014}
+    
+\begin{center}
+\begin{itemize}[label=$\bullet$]
+  \item INKML to RGB
+  \item \includegraphics[width=0.3\paperwidth]{Images/out.png}
+  \item Final result
+  \item \includegraphics[width=0.3\paperwidth]{Images/worked.png}
+  \item Label: \$x\_k xx\_k + y\_k yx\_k\$
+  \item Finally abandonned because don't know how to normalize images
+  % https://arxiv.org/pdf/1712.03991.pdf GRU-based Encoder-Decoder Approach with Attention for Online Handwritten Mathematical Expression Recognition
+\end{itemize}
+\end{center}
+
+\end{frame}
+
+\begin{frame}
+
+    \frametitle{\LaTeX~images generated dataset}
+    \framesubtitle{\hfill im2latex-100k}
+    
+\includegraphics[width=0.3\paperwidth]{Images/20_em_42.png}
+\includegraphics[width=0.3\paperwidth]{Images/26_em_99.png}
+\includegraphics[width=0.3\paperwidth]{Images/18_em_7.png}
+\includegraphics[width=0.3\paperwidth]{Images/32_em_220a.png}
+
+\end{frame}
+
+\begin{frame}
+
+    \frametitle{Compiled \LaTeX~images dataset}
+    \framesubtitle{\hfill im2latex-100k}
+
+Need some preprocess to transform:
+\newline
+\includegraphics[width=0.3\paperwidth]{Images/transformations.png}
+\begin{itemize}[label=$\bullet$]
+    \item
+        \texttt{ds \textasciicircum\{2\} = (1 - \{qcos{\textbackslash}theta{\textbackslash}over r\})}
+    \item
+        ~['d', 's', '\textasciicircum', '\{', '2', '\}', '=', '(', '1', '-', '\{', '{\textbackslash}frac', '\{', 'q', 'c', 'o', 's', '{\textbackslash}theta', '\}', '\{', 'r', '\}', '\}', ')']
+    \item
+        ~[0, 11, 31, 9, 5, 32, 8, 28, 23, 33, 6, 5, 18, 5, 34, 35, 36, 31, 37, 8, 5, 38, 8, 8, 24, 1]
+    % numbers single digits not treated as separeted tokens
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+    \frametitle{Compiled \LaTeX~images dataset}
+    \framesubtitle{\hfill im2latex-100k}
+
+Need some preprocess to transform:
+\newline
+\begin{itemize}[label=$\bullet$]
+  \item Removed 5 very unexpected images to reduce black rectangle area used to reduce pixels number
+  \item Likewise total pixels number from 64,000,000,000 to 11,764,000,000, it is a 5.44 factor
+  \item Furthermore these 5 images weren't in train, nor test, nor validation set (10 \% of images are in this case)
+  \item Pad images to normalize, using Python but slow so used C++ with multithreading
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+    \frametitle{\LaTeX~images generated dataset}
+    \framesubtitle{\hfill im2latex-100k}
+    
+\includegraphics[width=0.2\paperwidth]{Images/big2.png}
+\includegraphics[width=0.2\paperwidth]{Images/authors.png}
+\includegraphics[width=0.2\paperwidth]{Images/12.png}
+\includegraphics[width=0.2\paperwidth]{Images/15.png}
+White image and 19x: M a t h T y p e ! Z Z h x 4 7 ! c a a a d a G c b i a H W n W d b a W c b i G H R a q e a O G a g 2 Z a b a a a b u q a b e G a c a a a b i
+
+\end{frame}
+
+% dataloader: "(set_size, sentence_length, vocabulary_size)"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Architecture of the network}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+    \frametitle{Conduct of the model}
+    \framesubtitle{\hfill Architecture of the network}
+
+\hspace*{-0.7cm}\includegraphics[width=0.95\paperwidth]{Images/network.png}
+
+\vspace{1cm}
+\footnotesize
+
+\begin{tabular}{l|l|l}
+    green : data & yellow : convolution & orange : pooling\\
+    blue : batch normalization & purple : embedding & light grey : RNN\\
+    $\oplus$ : element-wise addition & dark grey : Gumbel softmax & red : LSTM
+\end{tabular}
+
+\end{frame}
+
+% hfactory test: slow, don't converge, sin...
+
+%%%%%%%%%%%%%%%%%%%%
+\section{Results and limitations}
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+    \frametitle{Results}
+    \framesubtitle{\hfill Results and limitations}
+    
+    After hours of studies and understanding\pause, hours of implementation\pause\\
+    We achieved to get\pause
+    
+    \Huge{No result, it failed miserably}
+    \centering
+    \includegraphics[height=4cm]{Images/failed.jpg}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Flaws in the dataset}
+    \framesubtitle{\hfill Results and limitations}
+    
+    \begin{block}{Examples}
+    \begin{itemize}[label=$\bullet$]
+        \item pictures mostly composed of white pixels (even some that are completely blank)
+        \item huge gaps between parts of the formulas
+    \end{itemize}
+    \end{block}
+    
+    \begin{exampleblock}{}
+    \begin{center}
+        \includegraphics[scale=0.15]{Images/empty1.png} \quad \includegraphics[scale=0.15]{Images/empty2.png}
+    \end{center}
+    \end{exampleblock}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Incoherences in the article}
+    \framesubtitle{\hfill Results and limitations}
+    
+    \begin{center}
+        \includegraphics[scale=0.15]{Images/encoder_decoder.png}
+        \includegraphics[scale=0.15]{Images/blstm.png}
+    \end{center}
+    
+\end{frame}
+
+%%%%%%%%%%
+% Source %
+%%%%%%%%%%
+
+
+
+\begin{frame}
+
+\frametitle{Sources}
+
+\footnotesize
+
+\begin{thebibliography}{1}
+\setbeamertemplate{bibliography item}[text]
+
+\bibitem{Paper1}
+    \href{https://arxiv.org/ftp/arxiv/papers/1908/1908.11415.pdf}{Zelun Wang \& Jyh-Charn Liu,
+    \emph{Translating Math Formula Images to LaTeX Sequences Using Deep
+    Neural Networks with Sequence-level Training}}
+        
+\bibitem{Paper2}
+    \href{https://arxiv.org/pdf/1609.04938.pdf}{Deng Y., Kanervisto A., Ling J. \& Rush A. M.,
+    \emph{Image-to-Markup Generation with Coarse-to-Fine Attention}}
+    
+\bibitem{Paper3}
+    \href{https://arxiv.org/pdf/1712.03991.pdf}{Zhang J., Du J. \& Dai L.,
+    \emph{A GRU-based Encoder-Decoder Approach with Attention for Online Handwritten Mathematical
+    Expression Recognition}}
+    
+\bibitem{Paper4}
+    \href{http://cs231n.stanford.edu/reports/2017/pdfs/815.pdf}{Genthial G. \& Sauvestre R.,
+    \emph{Image to Latex}}
+    
+\bibitem{im2markup}
+    \href{https://github.com/harvardnlp/im2markup}{\texttt{https://github.com/harvardnlp/im2markup}}
+
+\bibitem{dataset1}
+    \href{http://tc11.cvc.uab.es/datasets/CROHME-2014_2}{\texttt{http://tc11.cvc.uab.es/datasets/CROHME-2014\_2}}
+    
+\bibitem{dataset2}
+    \href{http://lstm.seas.harvard.edu/latex/data/}{\texttt{http://lstm.seas.harvard.edu/latex/data/}}
+
+\end{thebibliography}
+
+\end{frame}
+
+
+
+\end{document}
