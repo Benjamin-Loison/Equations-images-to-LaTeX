@@ -1,4 +1,5 @@
 import os
+import shlex
 from PIL import Image
 
 path = 'C:\\Users\\Benjamin\\Desktop\\BensFolder\\School\\ENS\\Saclay\\M1\\DeepLearning\\Project\\Equations-images-to-LaTeX\\'
@@ -8,8 +9,9 @@ os.chdir(path)
 def exec(cmd):
     os.system(cmd)
 
-sourceFolder = 'TestEM2014GTRGBNoLegendWhiteBlack/'
-destinationFolder = 'TestEM2014GTRGBNoLegendWhiteBlackCrop/'
+commonFolder = 'TestEM2014GTRGBNoLegendWhiteBlack'
+sourceFolder = f'{commonFolder}/'
+destinationFolder = f'{commonFolder}Crop/'
 
 def work(file):
     filePath = sourceFolder + file
@@ -33,11 +35,11 @@ def work(file):
 
     #print(xMin, xMax, yMin, yMax)
     deltaX, deltaY = xMax - xMin + 1, yMax - yMin + 1
-    cmd = 'convert ' + filePath + ' -crop ' + str(deltaX) + 'x' + str(deltaY) + '+' + str(xMin) + '+' + str(yMin) + ' ' + destinationFolder + file
+    cmd = f'convert {shlex.quote(filePath)} -crop {deltaX}x{deltaY}+{xMin)+{yMin} {shlex.quote(destinationFolder + file)}'
     print(cmd)
     exec(cmd)
 
-for r, d, files in os.walk(sourceFolder):
+for _, _, files in os.walk(sourceFolder):
     for file in files:
         work(file)
 

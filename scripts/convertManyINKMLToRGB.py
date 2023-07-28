@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import shlex
 
 #path = 'C:\\Users\\Benjamin\\Desktop\\BensFolder\\School\\ENS\\Saclay\\M1\\DeepLearning\\Project\\Equations-images-to-LaTeX\\'
 
@@ -12,10 +13,10 @@ def exec(cmd):
 
 folder = 'TestEM2014GT'
 
-for r, d, files in os.walk(folder):
+for _, _, files in os.walk(folder):
     for file in files:
         filePath = folder + '/' + file
         fileName = file.split('.')[0]
-        cmd = 'python3 inkml2img.py ' + filePath + ' ' + folder + 'RGB/' + fileName + '.png'
+        cmd = f'python3 inkml2img.py {shlex.quote(filePath)} {shlex.quote(f"{folder}RGB/{fileName}.png)}'
         exec(cmd)
 
