@@ -19,18 +19,21 @@ char pathSeparator = '/';
 vector<string> listFiles(string directory);
 void print(string s);
 unsigned int toDo;
-string exec(string cmd);
+string exec(string cmd),
+       escapeShellArgument(string shellArgument),
+       replaceAll(string str, const string& from, const string& to);
 
 vector<string> files;
-string sourceFolder = "formula_images_processed/",
-	   destinationFolder = "formula_images_processed_padded/";
+string commonFolder = "formula_images_processed",
+       sourceFolder = commonFolder + "/",
+       destinationFolder = commonFolder + "_padded/";
 
 void work(unsigned int beginIndex, unsigned int endIndex)
 {
 	for(unsigned int index = beginIndex; index < endIndex; index++)
 	{
 		string file = files[index],
-		       command = "convert " + sourceFolder + file + " -gravity NorthWest -background white -extent 680x173 " + destinationFolder + file;
+		       command = "convert " + escapeShellArgument(sourceFolder + file) + " -gravity NorthWest -background white -extent 680x173 " + escapeShellArgument(destinationFolder + file);
 		exec(command);
 		toDo--;
 	}
@@ -124,4 +127,21 @@ string exec(string cmd)
 void print(string s)
 {
 	cout << s << endl;
+}
+
+string replaceAll(string str, const string& from, const string& to)
+{
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != string::npos)
+    {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
+}
+
+// Source: https://stackoverflow.com/a/3669819
+string escapeShellArgument(string shellArgument)
+{
+    return "'" + replaceAll(shellArgument, "'", "'\\''") + "'";
 }
